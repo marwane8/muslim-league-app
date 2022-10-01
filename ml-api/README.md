@@ -12,4 +12,4 @@ To build project
     `python3 -m pip install -r requirements.txt`
 
 To run application in development:
-    `uvicorn ml-core:app --reload`
+    `uvicorn app.main:app --reload`

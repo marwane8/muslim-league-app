@@ -1,30 +1,30 @@
 
 from fastapi import FastAPI, Path
 from pydantic import BaseModel
+import sqlite3
+
+from app.models import Player
 
 app = FastAPI()
 
-class Player(BaseModel):
-    name: str
-    pos: str | None = None
-    age: int
 
 
-players = {
-    1 : {
-        "name" : "Ahmed",
-        "pos": "C" ,
-        "age": 22
-    }
-}
+players = { }
+
 
 @app.get("/")
 def home():
-    return {"Data" : "TEST"}
+    conn = sqlite3.connect('./muslim-league.db')
+    currsor = conn.execute("SELECT player_name, player_pos FROM PLAYERS WHERE ID=1")
+    for row in currsor:
+        player = Player(name=row[0],pos=row[1],id=0)
+    conn.close()
+    return player 
 
 #Path parameter
 @app.get("/get-player/{player_id}")
 def get_player(player_id: int = Path(None,description="The ID of a player")):
+
     return players[player_id] 
 
 #Example Query Parameter
