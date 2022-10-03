@@ -17,6 +17,7 @@ app = FastAPI()
 def home():
    return  { "message": "Muslim League API"}
 
+#TODO: Fix SignUp Page
 @app.post("/signup", summary="Create new user", response_model=User)
 def signup(user: User):
     
@@ -36,7 +37,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
     user_info = get_user_from_db(input_username,get_passwd=True)   
 
-    if not verify_password(input_password,user_info.password):
+    if not user_info or not verify_password(input_password,user_info.password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect username or password"

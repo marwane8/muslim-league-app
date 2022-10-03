@@ -3,8 +3,8 @@ from datetime import datetime
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-from .models import TokenPayload, User
-from .utils import ALGORITHM,JWT_SECRET_KEY,get_user_from_db
+from app.models import TokenPayload, User
+from app.utils import ALGORITHM,JWT_SECRET_KEY,get_user_from_db
 
 from jose import jwt
 from pydantic import ValidationError

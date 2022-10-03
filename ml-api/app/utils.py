@@ -1,6 +1,5 @@
 from typing import Any
 from datetime import datetime, timedelta
-from fastapi import HTTPException, status
 
 from app.models import User
 
