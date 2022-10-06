@@ -1,6 +1,7 @@
 from app.auth_deps import get_current_user
 from fastapi import FastAPI, Path, Depends,HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.models import Player, TokenSchema, User
 from app.utils import ( 
@@ -12,6 +13,18 @@ from app.utils import (
 )
 
 app = FastAPI()
+
+origins = [
+  "http://localhost:3000"  
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 def home():

@@ -1,13 +1,14 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 import Head from 'next/head'
+import { NextPage } from 'next'
 
 type Props = {
     title?: string 
 }
 
 
-const Header = ({title = 'default title'}: Props) => (
+const Header: NextPage<Props> = ({title = 'default title'}: Props) => (
     <Head>
         <title>{title}</title>
         <meta charSet='utf-8'/>
