@@ -67,7 +67,14 @@ def get_me(user: User = Depends(get_current_user)):
     return user;
 
 
-players = { }
+player = {
+    "id":1,
+    "name":"Mike",
+    "pos":"C"
+
+}
+players = {}
+players[1] = player
 
 @app.get("/get-player/{player_id}")
 def get_player(player_id: int = Path(None,description="The ID of a player")):
