@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchName , getUser, logIn } from "../utils/http-fetch"
+import { fetchName , getUser } from "../utils/http-fetch"
 
 export default function Test() {
     const [name,setName] = useState('Bro');
