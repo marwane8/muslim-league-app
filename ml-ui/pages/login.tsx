@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { login } from "../utils/http-fetch";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -18,10 +19,14 @@ export default function Login() {
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
-    //const res = await logIn(formData)
-    //const load = await res.json();
-    //console.log(load);
-   console.log(event,username,password) 
+    
+    login(formData)
+      .then(token => {
+        console.log('Login Successful')
+        localStorage.setItem('token',token.access_token)
+      })
+      .catch(error => console.log(error))
+    
   }
 
   
@@ -44,7 +49,7 @@ export default function Login() {
                       type="text"
                       autoComplete="username"
                       required
-                      className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="relative block w-full px-3 py-2 border rounded-none appearance-none rounded-t-md focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Username"
                       value={username}
                       onChange={handleUserChange}
@@ -60,9 +65,9 @@ export default function Login() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="relative block w-full px-3 py-2 border rounded-none appearance-none rounded-b-md focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Password"
-                      value={username}
+                      value={password}
                       onChange={handlePasswordChange}
                     />
                   </div>
@@ -71,7 +76,7 @@ export default function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium border border-transparent rounded-md text-t-primary white bg-green group hover:bg-bg-primary focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium border border-transparent rounded-md text-t-primary white bg-green group hover:bg-bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2"
                   >
                     Sign in
                   </button>
