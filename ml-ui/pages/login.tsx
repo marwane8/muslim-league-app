@@ -1,7 +1,12 @@
 import { useState } from "react";
-import { login } from "../utils/http-fetch";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function Login() {
+  
+  const { user, login, logout } = useAuth(); 
+  
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
@@ -20,14 +25,9 @@ export default function Login() {
     formData.append('username', username);
     formData.append('password', password);
     
-    login(formData)
-      .then(token => {
-        console.log('Login Successful')
-        localStorage.setItem('token',token.access_token)
-      })
-      .catch(error => console.log(error))
-    
-  }
+    login(formData);
+ 
+ }
 
   
   return (

@@ -1,21 +1,17 @@
 import { useState } from "react";
-import { fetchName , getUser } from "../utils/http-fetch"
+import { getAMessage } from "../utils/fetch-util";
 
 export default function Test() {
+    
     const [name,setName] = useState('Bro');
+    
 
     async function handleClick() {
-        fetchName()
-            .then(player => console.log(setName(player.name)))
-            .catch(error => console.error(error));
-        
-        const token = localStorage.getItem('token')
-
-        getUser(token)
-            .then( user => console.log(user))
-            .catch( error => console.log(error))
-}
-   
+        const mess = await getAMessage()
+            .then(player => setName(player.name))
+            .catch(error => console.log(error));
+   }
+    
     return (
         <div className="text-center h-96 bg-t-primary">
             <h1 className="bg-bg-primary"> B TEST CLASS </h1>
@@ -27,4 +23,3 @@ export default function Test() {
         </div>
     );
 }
-

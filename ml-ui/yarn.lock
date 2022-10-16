@@ -813,6 +813,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"context-api@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "context-api@npm:0.0.2"
+  dependencies:
+    immer: ^9.0.1
+  checksum: 6d1a0cb24fb375f7b394659662e6517443e1a2ae05f7c8bac434853cc0a395ae880bf70ae7b3d2ddcf88e830847f2e29fc93beb5f4f23fb5a81dbdef3e36c9fe
+  languageName: node
+  linkType: hard
+
 "core-js-pure@npm:^3.25.1":
   version: 3.25.2
   resolution: "core-js-pure@npm:3.25.2"
@@ -1750,6 +1759,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^9.0.1":
+  version: 9.0.15
+  resolution: "immer@npm:9.0.15"
+  checksum: 92e3d63e810e3c3c2bb61b70c45443e37ef983ad12924e3edaf03725ae5979618f5b473439bb3bb4a8c4769f25132f18dec10ea15c40f0b20da5691ff96ff611
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -1972,6 +1988,13 @@ __metadata:
   version: 2.0.0
   resolution: "isexe@npm:2.0.0"
   checksum: 26bf6c5480dda5161c820c5b5c751ae1e766c587b1f951ea3fcfc973bafb7831ae5b54a31a69bd670220e42e99ec154475025a468eae58ea262f813fdc8d1c62
+  languageName: node
+  linkType: hard
+
+"jose@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "jose@npm:4.10.0"
+  checksum: c575bf2519b758592b3037cac0da34ff2641e56a050b156fe6ab18c03cd6c22e5338d28d1fe3dd997c9b3c0cc7deda72faca4a93ff41274a587850c6519852d0
   languageName: node
   linkType: hard
 
@@ -2285,8 +2308,10 @@ __metadata:
     "@types/react": 18.0.21
     "@types/react-dom": 18.0.6
     autoprefixer: ^10.4.12
+    context-api: ^0.0.2
     eslint: 8.24.0
     eslint-config-next: 12.3.1
+    jose: ^4.10.0
     next: 12.3.1
     postcss: ^8.4.16
     react: 18.2.0
