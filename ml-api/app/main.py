@@ -1,9 +1,9 @@
 from app.auth_deps import get_current_user
-from fastapi import FastAPI, Path, Depends,HTTPException, status
+from fastapi import FastAPI, Path, Depends,HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.models import Player, TokenSchema, User
+from fastapi.responses import JSONResponse
+from app.models import Player, TokenSchema, User, UserJSON
 from app.utils import ( 
     create_access_token,
     create_refresh_token,
@@ -42,8 +42,8 @@ def signup(user: User):
     return user
 
 
-@app.post("/login",summary="Create access and refresh tokens for user", response_model=TokenSchema)
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
+@app.post("/login",summary="Create access and refresh tokens for user", response_model=UserJSON)
+def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 
     input_username = form_data.username  
     input_password = form_data.password 
@@ -55,11 +55,16 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect username or password"
         )
+    
+    response.set_cookie(key="token", value=create_access_token(user_info.username,admin=user_info.admin))
 
-    return {
-        "access_token": create_access_token(user_info.username),
-        "refresh_token" : create_refresh_token(user_info.username)
-    } 
+    user_json = {
+        "username": user_info.username,
+        "admin": user_info.admin
+    }
+
+    return user_json
+     
 
 
 @app.get("/me", summary='Get details of currently logged in user', response_model=User)
