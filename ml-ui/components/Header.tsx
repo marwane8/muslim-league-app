@@ -8,7 +8,7 @@ type Props = {
 }
 
 
-const Header: NextPage<Props> = ({title = 'default title'}: Props) => (
+const Header: NextPage<Props> = ({title = 'Muslim League CT'}: Props) => (
     <Head>
         <title>{title}</title>
         <meta charSet='utf-8'/>

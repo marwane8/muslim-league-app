@@ -1,14 +1,28 @@
+import Link from "next/link"
 import React from "react"
 
 const Navbar = () => (
-    <nav className="flex p-2 h-14 bg-green rounded-b-2xl">
-        <div className="ml-3 text-3xl font-bold text-t-primary grow">Logo</div>
+    <nav className="flex p-2 h-14 bg-primary rounded-b-2xl">
+        <div className="ml-3 text-3xl font-bold text-white grow">Logo</div>
         
-        <ul className="flex items-center justify-end mr-3 space-x-5 grow text-t-primary">
-            <li>Home</li>
-            <li>About</li>
-            <li>Players</li>
+        <ul className="flex items-center justify-end mr-3 space-x-5 text-white grow">
+            <li>
+                <Link href="/">
+                    Home
+                </Link>
+            </li>
+            <li>
+                <Link href="/about">
+                   About 
+                </Link>
+            </li>
+            <li>
+                <Link href="/teams">
+                    Teams 
+                </Link>
+            </li>
         </ul>
+
     </nav>
 )
 

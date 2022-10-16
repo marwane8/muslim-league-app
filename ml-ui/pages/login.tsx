@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-
+import Header from "../components/header";
 
 export default function Login() {
   
@@ -31,9 +31,11 @@ export default function Login() {
 
   
   return (
+    <>
+    <Header title="Login | Muslim League"/>
     <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md p-5 space-y-8 rounded-md bg-t-primary"> 
-            <h2 className="text-3xl font-bold text-center"> 
+        <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-gray"> 
+            <h2 className="text-3xl font-bold text-center text"> 
                 Admin Sign In    
             </h2>
             <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
@@ -49,7 +51,7 @@ export default function Login() {
                       type="text"
                       autoComplete="username"
                       required
-                      className="relative block w-full px-3 py-2 border rounded-none appearance-none rounded-t-md focus:z-10 focus:outline-none sm:text-sm"
+                      className="relative block w-full px-3 py-2 border border-gray-100 rounded-none appearance-none rounded-t-md focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Username"
                       value={username}
                       onChange={handleUserChange}
@@ -65,7 +67,7 @@ export default function Login() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="relative block w-full px-3 py-2 border rounded-none appearance-none rounded-b-md focus:z-10 focus:outline-none sm:text-sm"
+                      className="relative block w-full px-3 py-2 border border-gray-100 rounded-none appearance-none rounded-b-md focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Password"
                       value={password}
                       onChange={handlePasswordChange}
@@ -76,7 +78,7 @@ export default function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium border border-transparent rounded-md text-t-primary white bg-green group hover:bg-bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2"
+                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-transparent rounded-md white bg-primary group hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
                   >
                     Sign in
                   </button>
@@ -84,5 +86,6 @@ export default function Login() {
               </form>
         </div>
     </div>
+    </>
   );
 }
