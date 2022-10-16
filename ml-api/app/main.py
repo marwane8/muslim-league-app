@@ -21,6 +21,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -56,7 +57,7 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
             detail="Incorrect username or password"
         )
     
-    response.set_cookie(key="token", value=create_access_token(user_info.username,admin=user_info.admin))
+    response.set_cookie(key="token", value=create_access_token(user_info.username,admin=user_info.admin),secure=True)
 
     user_json = {
         "username": user_info.username,
