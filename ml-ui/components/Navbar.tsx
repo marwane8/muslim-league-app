@@ -17,7 +17,7 @@ const Navbar = () => (
                 </Link>
             </li>
             <li>
-                <Link href="/test">
+                <Link href="/example">
                     Teams 
                 </Link>
             </li>
