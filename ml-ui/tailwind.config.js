@@ -10,6 +10,7 @@ module.exports = {
       'primary-100': '#60be8f',
       'primary-200': '#4c9972',
       'primary': '#28805f',
+      'primary-400': '#2a5941',
       'primary-500': '#0a160f',
       'secondary-50': '#c7f4fb',
       'secondary-100': '#1cd8ef',
@@ -26,8 +27,9 @@ module.exports = {
       'gray-300': '#455459',
       'gray-500': '#00171b',
 
-      'green':'#28805f',
-      'red': '#eb5e28'
+      'red-50': '#FCEFF1',
+      'red': '#eb5e28',
+      'red-300': '#FB2F3C'
     },
     extend: {},
   },

@@ -1,16 +1,28 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+
 import Header from "../components/header";
+
+
+type ErrorProp = {
+    message?: string
+}
+const ErrorCard = ({ message }: ErrorProp) => (
+  
+    <div className="my-3 py-3 px-5 bg-red-50 border border-red-300 text-red rounded-md"> {message} </div>
+)
+
+
 
 export default function Login() {
   
-  const { user, login, logout } = useAuth(); 
+  const { user, isLoading, login, logout, error } = useAuth(); 
   
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
-  function handleUserChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleUserChange(event: React.ChangeEvent<HTMLInputElement>) { 
     setUsername(event.target.value);
   }
    
@@ -20,7 +32,7 @@ export default function Login() {
  
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    
+     
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -29,13 +41,13 @@ export default function Login() {
  
  }
 
-  
   return (
     <>
     <Header title="Login | Muslim League"/>
-    <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
+        {error ? <ErrorCard message={error}/> : null} 
         <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-gray"> 
-            <h2 className="text-3xl font-bold text-center text"> 
+            <h2 className="text-3xl font-bold text-center text-black"> 
                 Admin Sign In    
             </h2>
             <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
@@ -78,7 +90,8 @@ export default function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-transparent rounded-md white bg-primary group hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-transparent rounded-md bg-primary group hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-primary-400 disabled:text-primary-100"
+                    disabled={isLoading}
                   >
                     Sign in
                   </button>

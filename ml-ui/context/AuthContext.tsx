@@ -1,18 +1,24 @@
-import { createContext, ReactElement, useContext } from 'react'
+import { createContext, useContext } from 'react';
 import { ReactNode } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+import Cookie from "js-cookie";
+import { UserData } from '../utils/data-types';
+
 const API_BASE_URL = 'http://localhost:8000'
 
-export type AuthContextType = {
-    user: boolean;
+export type Auth = {
+    user: UserData | null;
+    isLoading: boolean;
     login: (userCredentials: FormData) => Promise<void>;
     logout: () => void;
+    error: string;
+
 }
 
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<Auth>({} as Auth);
 export function useAuth() {
     return useContext(AuthContext);
 }
@@ -22,9 +28,9 @@ type Props = {
 }
 
 export const AuthProvider = ({children}: Props) => {
-    const [user,setUser] = useState<boolean>(false);
+    const [user,setUser] = useState<UserData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    
+    const [error, setError] = useState<string>("");
     const router = useRouter();
 
     // Login User 
@@ -37,32 +43,77 @@ export const AuthProvider = ({children}: Props) => {
             credentials: 'include',
             body: userCredentials 
         }
+        setIsLoading(true);
+        try {
+            const response = await fetch(url,options);
+            
+            const data = await response.json();
+            
+            if (response.status === 200) {
+                setError('');
+                setUser(data);
+                router.push('/admin');
+            } else if(response.status === 401){
+                setError(data.detail);
+            } else {
+                setError("Server Request Error");
+            }
 
-        const response = await fetch(url,options);
-        const data = await response.json();
-        console.log(response.status);
-        if (response.status === 200) {
-            router.push('/admin');
-            console.log(data);
-        } else {
-            console.log("something went wrong!");
+        } catch (e) {
+            setError("Server Error");
+            console.error("Fetch Failed: ", e);
+        } finally {
+            setIsLoading(false);
         }
-
-   }
-
-    // Logout User
-    const logout = () => {
-        console.log('Logged Out');
     }
+    
+    // Logout User
+    const logout = async () => {
+        console.log('Logging Out');
+
+        setIsLoading(true);
+        const jwt = Cookie.get('token');
+
+        const url = API_BASE_URL + '/logout';
+        const options: RequestInit = {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${jwt}`
+            }
+        }
+        
+        try {
+            const response = await fetch(url,options);
+            const data = await response.json();
+            if (response.status === 200) {
+                setError('');
+                setUser(null);
+                router.push('/')
+                console.log(data.mesage)
+            } else {
+                setError("Server Request Error")
+                console.error("Invalid Request")
+            }
+        } catch (e) {
+            setError("Server Error");
+            console.error("Fetch Failed: ", e);
+        } finally {
+            setIsLoading(false);
+        }
+   }
 
     const value = {
         user,
+        isLoading,
         login,
-        logout
+        logout,
+        error
     }
+
     return (
         <AuthContext.Provider value={value}>
-           {children} 
+            {children} 
         </AuthContext.Provider>
     )
 }
