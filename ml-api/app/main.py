@@ -53,11 +53,11 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 
     if not user_info or not verify_password(input_password,user_info.password):
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password"
         )
-    
-    response.set_cookie(key="token", value=create_access_token(user_info.username,admin=user_info.admin),secure=True)
+    jwtToken = create_access_token(user_info.username,admin=user_info.admin)
+    response.set_cookie(key="token", value=jwtToken,secure=True)
 
     user_json = {
         "username": user_info.username,
@@ -65,8 +65,13 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
     return user_json
-     
 
+@app.get("/logout",summary="Logs out user and clears cookies")    
+def logout(user: User = Depends(get_current_user)):
+    message = {"message" : "Logout Success"}
+    response = JSONResponse(content=message) 
+    response.set_cookie(key="token", value="",secure=True)
+    return response
 
 @app.get("/me", summary='Get details of currently logged in user', response_model=User)
 def get_me(user: User = Depends(get_current_user)):
