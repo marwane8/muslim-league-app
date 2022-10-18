@@ -12,11 +12,15 @@ export async function getAMessage(): Promise<PlayerData> {
             'Content-Type': 'application/json'
         }
     }
-    const player: PlayerData = await fetchJson(url,options);
-    if (player.id) {
-       return player;
+    try{
+        const res  = await fetch(url,options);
+        if (res.ok) {
+        return res.json();
+        }
+    } catch (e) {
+        console.log(e)
     }
-
+    
     throw Error("User not found")
 }
 
@@ -46,19 +50,17 @@ export async function fetchJson<JSON = unknown>(
     input: RequestInfo,
     init?: RequestInit 
 ): Promise<JSON> {
-    const response = await fetch(input,init);
+    
+    try {
 
-    const data = await response.json();
+        const response = await fetch(input,init);
 
-    if (response.ok) {
-        return data
-    }
+        const data = await response.json();
+        if (response.ok) {
+            return data
+        }
 
-    throw new FetchError({
-        message: response.statusText,
-        response,
-        data
-    });
+    } catch (e) {  }
 }
 
 export class FetchError extends Error {

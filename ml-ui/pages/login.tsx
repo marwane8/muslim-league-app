@@ -16,7 +16,7 @@ const ErrorCard = ({ message }: ErrorProp) => (
 
 export default function Login() {
   
-  const { user, isLoading, login, logout, error } = useAuth(); 
+  const { isLoading, login, error } = useAuth(); 
   
 
   const [username, setUsername] = useState('');

@@ -1,15 +1,17 @@
 import {render,screen} from '@testing-library/react'
+import '@testing-library/jest-dom'
+
 import Home from '../pages/index'
 
-describe('Home', () => {
+//TEST DESCRIPTION
+test("Homepage says: 'Welcome to the Muslim League'", () => {
 
-    it('renders a heading', () => {
-        render(<Home/>)
+    //ARRANGE
+    render(<Home/>)
+    
+    //ACT
 
-        const heading = screen.getByRole('heading', {
-            name: /Welcome to the Muslim League/i,
-        })
-        
-        expect(heading).toBeInTheDocument()
-    })
+    //ASSERT
+    expect(screen.getByRole('heading')).toHaveTextContent('Welcome to the Muslim League')
+
 })

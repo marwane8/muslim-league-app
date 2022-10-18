@@ -13,7 +13,8 @@ export default function Test() {
         const mess = await getAMessage()
             .then(player => setName(player.name))
             .catch(error => console.log(error));
-        console.log(user)
+    //    console.log(mess)
+    //    console.log(user)
    }
     
     return (
