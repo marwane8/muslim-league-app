@@ -3,10 +3,9 @@ from fastapi import FastAPI, Path, Depends,HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from app.models import Player, TokenSchema, User, UserJSON
+from app.models import Player, User, UserJSON
 from app.utils import ( 
     create_access_token,
-    create_refresh_token,
     get_hashed_password,
     verify_password,
     get_user_from_db 

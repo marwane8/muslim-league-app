@@ -6,15 +6,12 @@ import { useAuth } from "../context/AuthContext";
 export default function Test() {
     
     
-    const { user } = useAuth();
     const [name,setName] = useState('Bro');
     
     async function handleClick() {
         const mess = await getAMessage()
             .then(player => setName(player.name))
             .catch(error => console.log(error));
-    //    console.log(mess)
-    //    console.log(user)
    }
     
     return (

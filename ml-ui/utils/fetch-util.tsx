@@ -35,60 +35,14 @@ export async function getUserInfo(token: string | null): Promise<UserData> {
     
     const url = API_BASE_URL + "/me";
 
-    const user: UserData = await fetchJson(url,options);
-    if (user.username) {
-       return user;
-    }
-
-    throw Error("Invalid Login Credentials")
-}
-
-//------------------------------------------------
-// Fetch Boiler Plate
-
-export async function fetchJson<JSON = unknown>(
-    input: RequestInfo,
-    init?: RequestInit 
-): Promise<JSON> {
-    
     try {
+        const res = await fetch(url,options);
+        if (res.ok) {
+            return res.json();
 
-        const response = await fetch(input,init);
-
-        const data = await response.json();
-        if (response.ok) {
-            return data
         }
-
-    } catch (e) {  }
-}
-
-export class FetchError extends Error {
-    response: Response;
-
-    data: {
-        message: string;
-    };
-
-    constructor({
-        message,
-        response,
-        data,
-    }: {
-        message: string;
-        response: Response;
-        data: {
-            message: string;
-        };
-    }) {
-        super(message);
-        
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, FetchError);
-        }
-    
-        this.name = "FetchError";
-        this.response = response;
-        this.data = data ?? { message: message};
+    } catch (e) {
+        console.log(e)
     }
+    throw Error("Invalid Login Credentials")
 }
