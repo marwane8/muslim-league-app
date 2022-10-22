@@ -17,7 +17,7 @@ JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
 JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY']
 
 # DB Constants
-DB_URL = "./muslim-league.db"
+DB_URL = "./database/muslim-league.db"
 
 # JWT Creation Utilities
 def create_access_token(subject: str | Any, admin: int, expires_delta: int = None) -> str:
@@ -80,3 +80,5 @@ def get_user_from_db(username: str,get_passwd: bool = False) -> User | None:
             print("SQLite connection closed")
 
     return user 
+
+print(get_hashed_password('password'))
