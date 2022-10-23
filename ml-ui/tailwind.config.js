@@ -15,7 +15,7 @@ module.exports = {
       'secondary-50': '#c7f4fb',
       'secondary-100': '#1cd8ef',
       'secondary': '#00a8b8',
-      'secondary-300': '006d77',
+      'secondary-300': '#006d77',
       'secondary-500': '#051618',
 
       'black': '#0f1211',
@@ -31,7 +31,16 @@ module.exports = {
       'red': '#eb5e28',
       'red-300': '#FB2F3C'
     },
-    extend: {},
+    container: {
+      center: true
+    },
+    extend: {
+      backgroundImage: {
+        prayer_img: `url('/prayer.jpg')`,
+        scoring_img: `url('/scoring.jpg')`,
+        award_img: `url('/awards.jpg')`
+      }
+    }
   },
   plugins: [],
 }
