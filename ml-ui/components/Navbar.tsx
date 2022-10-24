@@ -5,18 +5,18 @@ import { useState } from 'react'
 
 import Menu from '../public/menu.svg'
 import Close from '../public/close.svg'
-
+import Basketball from '../public/basketball.svg'
 
 export default function Navbar() {
     
 
     const [open, setOpen] = useState<boolean>(false)
-    const [subMenu, setSubMenu] = useState<string>('opacity-0 top-[-70px]')
+    const [subMenu, setSubMenu] = useState<string>('opacity-0 top-[-200px]')
 
     const toggleMenu = () => {
         if(open) {
             setOpen(false);
-            setSubMenu('opacity-0 top-[-50px]');
+            setSubMenu('opacity-0 top-[-200px]');
         } else {
             setOpen(true);
             setSubMenu('bg-primary rounded-b-lg top-[32px]')
@@ -45,11 +45,16 @@ export default function Navbar() {
 
     return (
         <div className="bg-primary">
-        <nav className="container p-2 max-w-screen-xl md:flex md:items-center md:justify-between">
+        <nav className="container p-1 max-w-screen-xl md:flex md:items-center md:justify-between">
             <div className="flex justify-between items-center">
-                <span className="font-extrabold text-white text-2xl">
-                    Logo
-                </span>
+                <span className="flex items-center font-bold text-white text-xl">
+                    <Link href='/'>
+                         <div>
+                         <Basketball className="w-10 mx-2 cursor-pointer hover:text-primary-500 duration-500" />
+                        </div>
+                    </Link>
+                    The Muslim League
+               </span>
 
                <div onClick={() => toggleMenu()}>
                  {open ? <Close className="cursor-pointer text-white md:hidden block w-7"/> : <Menu className="cursor-pointer text-white md:hidden block w-7"/> }
