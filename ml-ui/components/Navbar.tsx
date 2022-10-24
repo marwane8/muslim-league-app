@@ -56,7 +56,7 @@ export default function Navbar() {
                     The Muslim League
                </span>
 
-               <div onClick={() => toggleMenu()}>
+               <div className="pr-2" onClick={() => toggleMenu()}>
                  {open ? <Close className="cursor-pointer text-white md:hidden block w-7"/> : <Menu className="cursor-pointer text-white md:hidden block w-7"/> }
                 </div> 
 
