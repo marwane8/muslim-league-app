@@ -132,10 +132,28 @@ CREATE TABLE IF NOT EXISTS `teams_players` (
 INSERT INTO teams_players 
 VALUES(2, 1);
 
-INSERT INTO teams (season_id,team_name,team_captain)
-VALUES(1, 'Bulls', 3);
+
+PRAGMA foreign_keys = ON;
 
 INSERT INTO teams (season_id,team_name,team_captain)
 VALUES(1, 'Bulls', 3);
+
+
+# Import the sqlite3 module
+import sqlite3
+# Create a connection and cursor to your database
+conn = sqlite3.connect('example.db')
+c = conn.cursor()
+# Insert bobby
+c.execute("""INSERT INTO child VALUES(NULL, 'bobby')""")
+# The python module puts the last row id inserted into a variable on the cursor
+bobby_id = c.lastrowid
+# Insert spot
+c.execute("""INSERT INTO dog VALUES(NULL, 'spot')""")
+spot_id = c.lastrowid
+# Insert the mapping
+c.execute("""INSERT INTO child_dog VALUES(?, ?)""", (bobby_id, spot_id));
+# Commit
+conn.commit()
 
 

@@ -21,4 +21,13 @@ class UserJSON(BaseModel):
 class Player(BaseModel):
     id: int
     name: str | None = None
+    number: int
     pos: str
+
+class Team(BaseModel):
+    id: int
+    name: str | None = None
+    wins: int
+    loss: int
+    diff: int
+

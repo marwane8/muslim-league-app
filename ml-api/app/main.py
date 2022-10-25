@@ -3,12 +3,17 @@ from fastapi import FastAPI, Path, Depends,HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from app.models import Player, User, UserJSON
+from app.models import Player,Team, User, UserJSON
 from app.utils import ( 
     create_access_token,
     get_hashed_password,
     verify_password,
     get_user_from_db 
+)
+
+from app.db_access import (
+    create_standings,
+    get_team_roster
 )
 
 app = FastAPI()
@@ -74,8 +79,18 @@ def logout(user: User = Depends(get_current_user)):
 
 @app.get("/me", summary='Get details of currently logged in user', response_model=User)
 def get_me(user: User = Depends(get_current_user)):
-    return user;
+    return user
 
+
+@app.get("/standings/{season_id}" , response_model=list[Team])
+def get_roster(season_id: int = Path(None,description="The ID of a Season")):
+    standings = create_standings(season_id)
+    return standings 
+
+@app.get("/roster/{team_id}" , response_model=list[Player])
+def get_roster(team_id: int = Path(None,description="The ID of a Team")):
+    roster = get_team_roster(team_id)
+    return roster 
 
 player = {
     "id":1,
