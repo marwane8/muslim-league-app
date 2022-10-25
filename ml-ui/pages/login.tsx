@@ -44,7 +44,7 @@ export default function Login() {
   return (
     <>
     <Header title="Login | Muslim League CT"/>
-    <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         {error ? <ErrorCard message={error}/> : null} 
         <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-gray"> 
             <h2 className="text-3xl font-bold text-center text-primary"> 
