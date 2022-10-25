@@ -5,8 +5,15 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 
 import championpic from '/public/champions.jpg' 
+import { getStandings } from '../utils/fetch-util'
 
-const MiniStats = () => {
+export async function getServerSideProps() {
+
+  const res = await getStandings(3)
+  return { props: {res}}
+}
+
+const MiniStats = ({res}) => {
   
   const data = [
     {
@@ -63,10 +70,10 @@ const MiniStats = () => {
           </tr>
         </thead>
         <tbody>
-          { data.map((teams,index) => (
+          { res.map((teams,index) => (
             <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
-              <td className='px-3 py-4'> {teams.team} </td>
-              <td className='px-3 py-4'> {teams.win}  </td>
+              <td className='px-3 py-4'> {teams.name} </td>
+              <td className='px-3 py-4'> {teams.wins}  </td>
               <td className='px-3 py-4'> {teams.loss} </td>
             </tr>
          ))}
@@ -76,10 +83,9 @@ const MiniStats = () => {
   )
 }
 
-const Home: NextPage = () => {
+const Home: NextPage = ({res}) => {
   return (
-
-    <div className=''> 
+    <> 
       <Header /> 
 
       <div className='flex items-end bg-right bg-no-repeat lg:bg-right py-7 bg-[length:700px] sm:bg-cover bg-prayer_img h-[300px] sm:h-[600px]'>
@@ -114,7 +120,7 @@ const Home: NextPage = () => {
         <div className='m-auto md:grid max-w-5xl md:grid-cols-2 '> 
 
           <div className='row-span-2'>
-            <MiniStats/>
+            <MiniStats res={res}/>
           </div> 
           <div className='flex flex-col justify-center py-5 min-h-[160px] items-center m-5 rounded-xl bg-award_img bg-cover bg-center bg-no-repeat'> 
             <h1 className='w-3/5 text-center font-bold my-3 text-white text-xl'> SEASON AWARD WINNERS </h1>
@@ -147,9 +153,7 @@ const Home: NextPage = () => {
           </p>
        </div>
       </Container>
-
-
-   </div>
+   </>
   )
 }
 

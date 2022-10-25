@@ -2,11 +2,18 @@ import React from "react"
 import Container from "../components/container"
 
 import Header from '../components/header'
+import { getStandings } from "../utils/fetch-util"
 
 
 
-export default function Standings() {
-  const data = [
+export async function getServerSideProps() {
+
+  const res = await getStandings(3) 
+  return { props: {res}}
+}
+
+export default function Standings({res}) {
+  let data = [
     {
       team: "Top Akhs",
       win: 8,
@@ -59,6 +66,7 @@ export default function Standings() {
     },
 
   ]
+   console.log(res)
    return(
     <Container>
     <Header title='Standings | Muslim League CT'/> 
@@ -76,11 +84,11 @@ export default function Standings() {
           </tr>
         </thead>
         <tbody>
-          { data.map((teams,index) => (
+          { res.map((teams,index) => (
             <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
               <td className='px-3 py-4 font-bold bg-primary border text-white'> {index+1} </td>
-              <td className='px-3 py-4'> {teams.team} </td>
-              <td className='px-3 py-4'> {teams.win}  </td>
+              <td className='px-3 py-4'> {teams.name} </td>
+              <td className='px-3 py-4'> {teams.wins}  </td>
               <td className='px-3 py-4'> {teams.loss} </td>
               <td className='px-2 py-4'> {teams.diff} </td>
             </tr>
@@ -88,6 +96,7 @@ export default function Standings() {
         </tbody>
       </table>
     </div>
-</Container>
+  </Container>
   )
 }
+

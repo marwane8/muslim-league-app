@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getAMessage } from "../utils/fetch-util";
+import { getAMessage, getRoster, getStandings } from "../utils/fetch-util";
 import { useAuth } from "../context/AuthContext";
 
 export default function Test() {
@@ -8,9 +8,8 @@ export default function Test() {
     const [name,setName] = useState('Bro');
     
     async function handleClick() {
-        const mess = await getAMessage()
-            .then(player => setName(player.name))
-            .catch(error => console.log(error));
+        const standings = await getRoster(16) 
+        console.log(standings)
    }
     
     return (
