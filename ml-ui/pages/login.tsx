@@ -43,12 +43,12 @@ export default function Login() {
 
   return (
     <>
-    <Header title="Login | Muslim League"/>
-    <div className="flex flex-col items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
+    <Header title="Login | Muslim League CT"/>
+    <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         {error ? <ErrorCard message={error}/> : null} 
         <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-gray"> 
-            <h2 className="text-3xl font-bold text-center text-black"> 
-                Admin Sign In    
+            <h2 className="text-3xl font-bold text-center text-primary"> 
+                Admin Sign In 
             </h2>
             <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                 <input type="hidden" name="remember" defaultValue="true" />

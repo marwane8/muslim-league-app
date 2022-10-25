@@ -32,22 +32,33 @@ function LogoutButton() {
 export default function Footer() {
   const { user } = useAuth();
   
+
+  
+  
+  const goToInsta = () => {document.location.href="https://www.instagram.com/muslimleaguect/"}
+  const goToFacebook = () => {document.location.href="https://www.facebook.com/MuslimLeagueCT"}
+
   return (
     <footer className="border-t border-gray-100 max-auto bg-gray"> 
         <Container>
           <div className="flex justify-between pt-3 m-auto w-20 g-red"> 
-            <Iglogo className="w-[30px]"/>
-            <Fblogo className="w-[30px]"/>
+            <button onClick={goToInsta}>
+              <Iglogo className="w-[30px]"/>
+            </button>
+            <button onClick={goToFacebook}>
+              <Fblogo className="w-[30px]"/>
+            </button>
           </div>
-          <h3 className="text-center font-bold">Muslim League CT est. 2020</h3>
+
+            <h3 className="text-center">Muslim League CT est. 2020</h3>
            <div className="flex pb-1 m-auto w-64 justify-between">
             <NextLink href='/about'>
-                <a className="font-bold text-primary"> About Us </a>
+                <a className="font-bold text-primary"> About Us</a>
             </NextLink>
-             <NextLink href='/example'>
+             <NextLink href='/policy'>
                 <a className="font-bold text-primary"> Policy </a>
             </NextLink>
-              <NextLink href='/'>
+              <NextLink href='/contact'>
                 <a className="font-bold text-primary"> Contact Us </a>
             </NextLink>
       

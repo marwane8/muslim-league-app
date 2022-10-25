@@ -12,6 +12,6 @@ test("Homepage says: 'Welcome to the Muslim League'", () => {
     //ACT
 
     //ASSERT
-    expect(screen.getByRole('heading')).toHaveTextContent('Welcome to the Muslim League')
+    expect(screen.getByRole('heading')).toHaveTextContent('The Muslim League')
 
 })

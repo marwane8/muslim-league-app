@@ -4,7 +4,7 @@ import Container from '../components/container'
 import Image from 'next/image'
 import NextLink from 'next/link'
 
-import championpic from '../public/champions.jpg' 
+import championpic from '/public/champions.jpg' 
 
 const MiniStats = () => {
   
@@ -53,9 +53,9 @@ const MiniStats = () => {
   ]
   
   return(
-    <div className='m-5 shadow-sm bg-primary rounded-xl'>
+    <div className='m-5 shadow-sm overflow-hidden rounded-xl'>
       <table className="w-full text-left table-fixed">
-        <thead className='text-white'>
+        <thead className='bg-primary text-white'>
           <tr >
             <th className= 'w-40 px-6 py-3'>Team</th>
             <th className='px-3 py-3'>W</th>
@@ -118,7 +118,7 @@ const Home: NextPage = () => {
           </div> 
           <div className='flex flex-col justify-center py-5 min-h-[160px] items-center m-5 rounded-xl bg-award_img bg-cover bg-center bg-no-repeat'> 
             <h1 className='w-3/5 text-center font-bold my-3 text-white text-xl'> SEASON AWARD WINNERS </h1>
-             <NextLink href='/about'>
+             <NextLink href='/awards'>
                 <button className="px-2 w-1/3 text-center py-1 hover:bg-gradient-to-r from-primary to-secondary  rounded-md bg-primary-500 font-bold text-white">
                   <a className="font-bold text-white"> AWARDS </a>
                 </button>
@@ -127,9 +127,9 @@ const Home: NextPage = () => {
 
           <div className='flex flex-col justify-center min-h-[160px] py-5 items-center m-5 rounded-xl bg-scoring_img bg-cover bg-top bg-no-repeat'> 
             <h1 className='w-3/5 text-center font-bold my-3 text-white text-xl'> OUR LEAGUE LEADERS </h1>
-             <NextLink href='/about'>
+             <NextLink href='/standings'>
                 <button className="px-2 min-w-fit w-1/3 text-center py-1 hover:bg-gradient-to-r hover:from-secondary  hover:to-primary rounded-md bg-black font-bold  text-white">
-                  <a className="font-bold py-2 text-white"> LEADERBOARDS</a>
+                  <a className="font-bold py-2 text-white"> STANDINGS </a>
                 </button>
              </NextLink>
           </div>

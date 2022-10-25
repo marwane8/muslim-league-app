@@ -3,9 +3,9 @@ import React from "react"
 
 import { useState } from 'react'
 
-import Menu from '../public/menu.svg'
-import Close from '../public/close.svg'
-import Basketball from '../public/basketball.svg'
+import Menu from '/public/menu.svg'
+import Close from '/public/close.svg'
+import Basketball from '/public/basketball.svg'
 
 export default function Navbar() {
     
@@ -19,18 +19,18 @@ export default function Navbar() {
             setSubMenu('opacity-0 top-[-200px]');
         } else {
             setOpen(true);
-            setSubMenu('bg-primary rounded-b-lg top-[32px]')
+            setSubMenu('bg-primary rounded-b-lg top-[32px] shadow-2xl')
         }
     }
 
     const pages = [
         {
             name: 'Standings',
-            link: '/'
+            link: '/standings'
         },
         {
             name: 'Awards',
-            link: '/about'
+            link: '/awards'
         },
         {
             name: 'Teams',
@@ -39,7 +39,7 @@ export default function Navbar() {
 
         {
             name: 'About',
-            link: '/example'
+            link: '/about'
         },
     ]
 
@@ -53,7 +53,7 @@ export default function Navbar() {
                          <Basketball className="w-10 mx-2 cursor-pointer hover:text-primary-500 duration-500" />
                         </div>
                     </Link>
-                    The Muslim League
+                    Muslim League CT
                </span>
 
                <div className="pr-2" onClick={() => toggleMenu()}>
@@ -62,7 +62,7 @@ export default function Navbar() {
 
             </div>
 
-            <ul className={`md:flex my-4 pb-3 md:my-0 md:items-center tansition-all absolute ease-in duration-500 md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
+            <ul className={`z-[1] md:flex my-4 pb-3 md:shadow-none md:my-0 md:items-center tansition-all absolute ease-in duration-500 md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
 
                 { pages.map((page,index) => (
                 <li key={index} onClick={() => toggleMenu()} className="mx-3 border-b pt-3 pb-1 pr-9 md:pb-0 md:pr-0 md:border-none md:my-0 text-lg font-bold text-white hover:text-primary-500 duration-500">
