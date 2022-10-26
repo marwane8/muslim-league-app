@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Cookie from "js-cookie";
-import { UserData } from '../utils/data-types';
-
-const API_BASE_URL = 'http://localhost:8000'
+import { API_BASE_URL, UserData } from '../utils/fetch-models';
 
 export type Auth = {
     user: UserData | null;

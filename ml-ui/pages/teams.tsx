@@ -34,13 +34,13 @@ const TeamTable = () => {
   ]
   
   return(
-    <div className='m-auto my-7 shadow-sm max-w-lg overflow-hidden rounded-xl'>
+    <div className='max-w-lg m-auto overflow-hidden shadow-sm my-7 rounded-xl'>
       <table className="w-full text-left table-fixed">
-        <thead className=' text-white'>
+        <thead className='text-white '>
           <tr>
-            <th colSpan={3} className="py-3 bg-primary text-xl text-center"> Team </th>
+            <th colSpan={3} className="py-3 text-xl text-center bg-primary"> Team </th>
           </tr>
-          <tr  className='bg-primary-100 text-center  text-primary-500'>
+          <tr  className='text-center bg-primary-100 text-primary-500'>
             <th className= 'w-40 px-6 py-3 border border-white'> Name </th>
             <th className='px-3 py-3 border border-white'> No. </th>
             <th className='px-3 py-3 border border-white'> Pos </th>
@@ -89,18 +89,18 @@ const Teams = () => {
 
   return (
       <Container>
-      <Header title='Teams | Muslim League CT'/> 
-      <h2 className='text-2xl m-8 text-primary font-bold text-center md:text-4xl'> Teams </h2>
-      <div className='flex flex-col justify-between flex-wrap h-36 max-w-sm m-auto'>
+        <Header title='Teams | Muslim League CT'/> 
+        <h2 className='m-8 text-2xl font-bold text-center text-primary md:text-4xl'> Teams </h2>
+        <div className='flex flex-col flex-wrap justify-between max-w-sm m-auto h-36'>
 
-          { teams.map((team,index) => (
-            <button  key={index} className='font-bold bg-primary text-white m-2  py-1 px-3 rounded-lg'>
-              {team.name} 
-            </button>
-         ))}
+            { teams.map((team,index) => (
+              <button  key={index} className='px-3 py-1 m-2 font-bold text-white rounded-lg bg-primary'>
+                {team.name} 
+              </button>
+          ))}
 
-      </div>
-       <TeamTable/>
+        </div>
+        <TeamTable/>
       </Container>
   )
 }

@@ -2,81 +2,29 @@ import React from "react"
 import Container from "../components/container"
 
 import Header from '../components/header'
-import { getStandings } from "../utils/fetch-util"
+
+import { getStandings } from "../utils/api/team-api"
+import { TeamData } from "../utils/fetch-models"
 
 
-
-export async function getServerSideProps() {
-
-  const res = await getStandings(3) 
-  return { props: {res}}
+type Props = {
+  standings: TeamData[]
 }
 
-export default function Standings({res}) {
-  let data = [
-    {
-      team: "Top Akhs",
-      win: 8,
-      loss: 0,
-      diff: 90
-    },
-    {
-      team: "Springfield",
-      win: 7,
-      loss: 1,
-      diff: 30
 
+export default function Standings({standings}: Props) {
 
-    },
-    {
-      team: "The Moors",
-      win: 6,
-      loss: 2,
-      diff: 10
-    },
-    {
-      team: "Young Sahabs",
-      win: 5,
-      loss: 3,
-      diff: -10
-    },
-    {
-      team: "Mali Word",
-      win: 4,
-      loss: 4,
-      diff: -15
-    },
-    {
-      team: "The Akatsuki",
-      win: 3,
-      loss: 5,
-      diff: -24
-    },
-    {
-      team: "Islam Dunk",
-      win: 2,
-      loss: 6,
-      diff: -40
-    },
-    {
-      team: "The Bulls",
-      win: 1,
-      loss: 7,
-      diff: 62
-    },
+  return(
 
-  ]
-   console.log(res)
-   return(
     <Container>
     <Header title='Standings | Muslim League CT'/> 
-    <h2 className='text-2xl m-4 text-primary font-bold text-center md:text-4xl'> Standings </h2>
+    <h2 className='m-4 text-2xl font-bold text-center text-primary md:text-4xl'> Standings </h2>
     <div className='m-auto max-w-[600px] mb-5 shadow-lg overflow-hidden rounded-xl'>
-      <table className="text-left w-full table-fixed">
-        <thead className='bg-primary text-white'>
+      <table className="w-full text-left table-fixed">
+        <thead className='text-white bg-primary'>
           <tr >
 
-            <th className='px-3 py-3 w-12 pl-1 border'>POS</th>
+            <th className='w-12 px-3 py-3 pl-1 border'>POS</th>
             <th className= 'w-40 px-6 py-3'>Team</th>
             <th className='px-3 py-3'>W</th>
             <th className='px-3 py-3'>L</th>
@@ -84,9 +32,9 @@ export default function Standings({res}) {
           </tr>
         </thead>
         <tbody>
-          { res.map((teams,index) => (
+          { standings.map((teams,index) => (
             <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
-              <td className='px-3 py-4 font-bold bg-primary border text-white'> {index+1} </td>
+              <td className='px-3 py-4 font-bold text-white border bg-primary'> {index+1} </td>
               <td className='px-3 py-4'> {teams.name} </td>
               <td className='px-3 py-4'> {teams.wins}  </td>
               <td className='px-3 py-4'> {teams.loss} </td>
@@ -100,3 +48,28 @@ export default function Standings({res}) {
   )
 }
 
+export async function getServerSideProps() {
+
+  let standings_data =  [
+    {
+      id: 1,
+      name: "Team 1",
+      wins: 8,
+      loss: 0
+    },
+    {
+      id: 2,
+      name: "Team 2",
+      wins: 7,
+      loss: 1
+    }
+  ]
+
+  try {
+    standings_data = await getStandings(3)
+  } catch (e) {
+    console.error('Unable to get data')
+  }
+  return { props: {standings: standings_data}}
+
+}

@@ -9,7 +9,7 @@ type ErrorProp = {
 }
 const ErrorCard = ({ message }: ErrorProp) => (
   
-    <div className="my-3 py-3 px-5 bg-red-50 border border-red-300 text-red rounded-md"> {message} </div>
+    <div className="px-5 py-3 my-3 border border-red-300 rounded-md bg-red-50 text-red"> {message} </div>
 )
 
 

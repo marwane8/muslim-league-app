@@ -1,89 +1,20 @@
-import type { NextPage } from 'next'
-import Header from '../components/header'
-import Container from '../components/container'
 import Image from 'next/image'
 import NextLink from 'next/link'
 
 import championpic from '/public/champions.jpg' 
-import { getStandings } from '../utils/fetch-util'
 
-export async function getServerSideProps() {
+import Header from '../components/header'
+import Container from '../components/container'
+import { getStandings } from '../utils/api/team-api'
+import { TeamData } from '../utils/fetch-models'
 
-  const res = await getStandings(3)
-  return { props: {res}}
-}
 
-const MiniStats = ({res}) => {
-  
-  const data = [
-    {
-      team: "Top Akhs",
-      win: 8,
-      loss: 0
-    },
-    {
-      team: "Springfield",
-      win: 7,
-      loss: 1
-    },
-    {
-      team: "The Moors",
-      win: 6,
-      loss: 2
-    },
-    {
-      team: "Young Sahabs",
-      win: 5,
-      loss: 3
-    },
-    {
-      team: "Mali Word",
-      win: 4,
-      loss: 4
-    },
-    {
-      team: "The Akatsuki",
-      win: 3,
-      loss: 5
-    },
-    {
-      team: "Islam Dunk",
-      win: 2,
-      loss: 6
-    },
-    {
-      team: "The Bulls",
-      win: 1,
-      loss: 7
-    },
+type Props = {
+  standings: TeamData[]
+} 
 
-  ]
-  
-  return(
-    <div className='m-5 shadow-sm overflow-hidden rounded-xl'>
-      <table className="w-full text-left table-fixed">
-        <thead className='bg-primary text-white'>
-          <tr >
-            <th className= 'w-40 px-6 py-3'>Team</th>
-            <th className='px-3 py-3'>W</th>
-            <th className='px-3 py-3'>L</th>
-          </tr>
-        </thead>
-        <tbody>
-          { res.map((teams,index) => (
-            <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
-              <td className='px-3 py-4'> {teams.name} </td>
-              <td className='px-3 py-4'> {teams.wins}  </td>
-              <td className='px-3 py-4'> {teams.loss} </td>
-            </tr>
-         ))}
-        </tbody>
-      </table>
-    </div>
-  )
-}
+const Home = ({standings}: Props) => {
 
-const Home: NextPage = ({res}) => {
   return (
     <> 
       <Header /> 
@@ -117,25 +48,25 @@ const Home: NextPage = ({res}) => {
 
 
         <h2 className='text-2xl font-bold text-center md:text-4xl'> 2022 Season Recap </h2>
-        <div className='m-auto md:grid max-w-5xl md:grid-cols-2 '> 
+        <div className='max-w-5xl m-auto md:grid md:grid-cols-2 '> 
 
           <div className='row-span-2'>
-            <MiniStats res={res}/>
+            <MiniStats standings={standings}/>
           </div> 
           <div className='flex flex-col justify-center py-5 min-h-[160px] items-center m-5 rounded-xl bg-award_img bg-cover bg-center bg-no-repeat'> 
-            <h1 className='w-3/5 text-center font-bold my-3 text-white text-xl'> SEASON AWARD WINNERS </h1>
+            <h1 className='w-3/5 my-3 text-xl font-bold text-center text-white'> SEASON AWARD WINNERS </h1>
              <NextLink href='/awards'>
-                <button className="px-2 w-1/3 text-center py-1 hover:bg-gradient-to-r from-primary to-secondary  rounded-md bg-primary-500 font-bold text-white">
+                <button className="w-1/3 px-2 py-1 font-bold text-center text-white rounded-md hover:bg-gradient-to-r from-primary to-secondary bg-primary-500">
                   <a className="font-bold text-white"> AWARDS </a>
                 </button>
              </NextLink>
           </div>
 
           <div className='flex flex-col justify-center min-h-[160px] py-5 items-center m-5 rounded-xl bg-scoring_img bg-cover bg-top bg-no-repeat'> 
-            <h1 className='w-3/5 text-center font-bold my-3 text-white text-xl'> OUR LEAGUE LEADERS </h1>
+            <h1 className='w-3/5 my-3 text-xl font-bold text-center text-white'> OUR LEAGUE LEADERS </h1>
              <NextLink href='/standings'>
-                <button className="px-2 min-w-fit w-1/3 text-center py-1 hover:bg-gradient-to-r hover:from-secondary  hover:to-primary rounded-md bg-black font-bold  text-white">
-                  <a className="font-bold py-2 text-white"> STANDINGS </a>
+                <button className="w-1/3 px-2 py-1 font-bold text-center text-white bg-black rounded-md min-w-fit hover:bg-gradient-to-r hover:from-secondary hover:to-primary">
+                  <a className="py-2 font-bold text-white"> STANDINGS </a>
                 </button>
              </NextLink>
           </div>
@@ -154,6 +85,57 @@ const Home: NextPage = ({res}) => {
        </div>
       </Container>
    </>
+  )
+}
+
+export async function getServerSideProps() {
+
+  let standings_data =  [
+    {
+      id: 1,
+      name: "Team 1",
+      wins: 8,
+      loss: 0
+    },
+    {
+      id: 2,
+      name: "Team 2",
+      wins: 7,
+      loss: 1
+    }
+  ]
+
+  try {
+    standings_data = await getStandings(3)
+  } catch (e) {
+    console.error('Unable to get data')
+  }
+  return { props: {standings: standings_data}}
+}
+
+const MiniStats = ({standings}: Props) => {
+  
+  return(
+    <div className='m-5 overflow-hidden shadow-sm rounded-xl'>
+      <table className="w-full text-left table-fixed">
+        <thead className='text-white bg-primary'>
+          <tr >
+            <th className= 'w-40 px-6 py-3'>Team</th>
+            <th className='px-3 py-3'>W</th>
+            <th className='px-3 py-3'>L</th>
+          </tr>
+        </thead>
+        <tbody>
+          { standings.map((teams,index) => (
+            <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
+              <td className='px-3 py-4'> {teams.name} </td>
+              <td className='px-3 py-4'> {teams.wins}  </td>
+              <td className='px-3 py-4'> {teams.loss} </td>
+            </tr>
+         ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
