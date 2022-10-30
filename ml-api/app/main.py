@@ -3,6 +3,9 @@ from fastapi import FastAPI, Path, Depends,HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+
+import os
+
 from app.models import Player,Team, User, UserJSON
 from app.utils import ( 
     create_access_token,
@@ -32,7 +35,8 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-   return  { "message": "Muslim League API"}
+    print(os.environ.get("TEST_VAR"))
+    return  { "message": "The Muslim League API"}
 
 
 @app.post("/login",summary="Create access and refresh tokens for user", response_model=UserJSON)

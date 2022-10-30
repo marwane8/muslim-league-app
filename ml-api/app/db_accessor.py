@@ -1,10 +1,10 @@
 import sqlite3
-
+import os
 from app.models import Player 
 from app.models import Team 
 
 # DB Constants
-DB_URL = "./database/muslim-league.db"
+DB_URL = os.environ.get('DB_URL') 
 
 def get_team_roster(team_id: int) -> list[Player]:
     roster: list[Player] = []
@@ -64,5 +64,3 @@ def create_standings(season_id: int) -> list[Team]:
             print("Closing SQLite Connection")
 
     return standings 
-
-print(get_team_roster(16))

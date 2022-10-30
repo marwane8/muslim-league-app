@@ -4,20 +4,21 @@ from datetime import datetime, timedelta
 from app.models import User
 
 from jose import jwt
+import os
 from passlib.context import CryptContext
 
-import os
 import sqlite3
 
 # JWT Constants
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 # 30 minutes
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
 ALGORITHM = "HS256"
-JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
-JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY']
+
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') 
+JWT_REFRESH_SECRET_KEY = os.environ.get('JWT_REFRESH_SECRET_KEY') 
 
 # DB Constants
-DB_URL = "./database/muslim-league.db"
+DB_URL = os.environ.get('DB_URL') 
 
 # JWT Creation Utilities
 def create_access_token(subject: str | Any, admin: int, expires_delta: int = None) -> str:
@@ -80,5 +81,3 @@ def get_user_from_db(username: str,get_passwd: bool = False) -> User | None:
             print("SQLite connection closed")
 
     return user 
-
-print(get_hashed_password('password'))
