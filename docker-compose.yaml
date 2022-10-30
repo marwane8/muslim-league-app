@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  ml-ui:
+    image: muslim-league-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ml-api
+
+  ml-api:
+    image: muslim-league-api
+    ports:
+      - "8000:80"
+    environment:
+      - TEST_VAR=hello
+      - JWT_SECRET_KEY=key1
+      - JWT_REFRESH_SECRET_KEY=key2
+      - DB_URL=./database/muslim-league.db
+    volumes:
+      - ./ml-api/database:/code/database
+
+
