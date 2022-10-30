@@ -6,15 +6,14 @@ import championpic from '/public/champions.jpg'
 import Header from '../components/header'
 import Container from '../components/container'
 import { getStandings } from '../utils/api/team-api'
-import { TeamData } from '../utils/fetch-models'
-
+import { API_BASE_URL, TeamData } from '../utils/fetch-models'
 
 type Props = {
   standings: TeamData[]
 } 
 
 const Home = ({standings}: Props) => {
-
+  console.log(API_BASE_URL)
   return (
     <> 
       <Header /> 
