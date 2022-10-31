@@ -6,7 +6,7 @@ import championpic from '/public/champions.jpg'
 import Header from '../components/header'
 import Container from '../components/container'
 import { getStandings } from '../utils/api/team-api'
-import { API_BASE_URL, TeamData } from '../utils/fetch-models'
+import { API_BASE_URL, API_CLIENT_URL, TeamData } from '../utils/fetch-models'
 
 type Props = {
   standings: TeamData[]
@@ -14,6 +14,7 @@ type Props = {
 
 const Home = ({standings}: Props) => {
   console.log(API_BASE_URL)
+  console.log(API_CLIENT_URL)
   return (
     <> 
       <Header /> 

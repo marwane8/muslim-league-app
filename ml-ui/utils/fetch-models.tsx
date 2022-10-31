@@ -1,4 +1,5 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8000'
+export const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000'
+export const API_CLIENT_URL = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:8000'
 
 export type UserData = {
     username: string,

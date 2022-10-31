@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Cookie from "js-cookie";
-import { API_BASE_URL, UserData } from '../utils/fetch-models';
+import { API_CLIENT_URL, UserData } from '../utils/fetch-models';
 
 export type Auth = {
     user: UserData | null;
@@ -35,7 +35,7 @@ export const AuthProvider = ({children}: Props) => {
     const login = async (userCredentials: FormData) => {
 
         console.log('Logging In')
-        const url = API_BASE_URL + '/login';
+        const url = API_CLIENT_URL + '/login';
         const options: RequestInit = {
             method: 'POST',
             credentials: 'include',
@@ -72,7 +72,7 @@ export const AuthProvider = ({children}: Props) => {
         setIsLoading(true);
         const jwt = Cookie.get('token');
 
-        const url = API_BASE_URL + '/logout';
+        const url = API_CLIENT_URL + '/logout';
         const options: RequestInit = {
             method: 'GET',
             credentials: 'include',
