@@ -22,6 +22,9 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
+ARG jwt_key 
+ENV NEXT_PUBLIC_JWT_KEY=${jwt_key}
+
 ARG NEXT_PUBLIC_SERVER_URL
 ENV NEXT_PUBLIC_SERVER_URL=http://ml-api:80
 

@@ -35,7 +35,6 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-    print(os.environ.get("TEST_VAR"))
     return  { "message": "The Muslim League API"}
 
 

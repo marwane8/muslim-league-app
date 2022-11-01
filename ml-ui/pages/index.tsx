@@ -6,15 +6,14 @@ import championpic from '/public/champions.jpg'
 import Header from '../components/header'
 import Container from '../components/container'
 import { getStandings } from '../utils/api/team-api'
-import { API_BASE_URL, API_CLIENT_URL, TeamData } from '../utils/fetch-models'
+import { JWT_KEY, TeamData } from '../utils/fetch-models'
 
 type Props = {
   standings: TeamData[]
 } 
 
 const Home = ({standings}: Props) => {
-  console.log(API_BASE_URL)
-  console.log(API_CLIENT_URL)
+  console.log(JWT_KEY)
   return (
     <> 
       <Header /> 

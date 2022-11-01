@@ -1,5 +1,6 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000'
 export const API_CLIENT_URL = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:8000'
+export const JWT_KEY = process.env.NEXT_PUBLIC_JWT_KEY
 
 export type UserData = {
     username: string,
