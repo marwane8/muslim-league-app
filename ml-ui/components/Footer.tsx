@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import NextLink from 'next/link';
 
 import Container from "./container";
 import { useAuth } from "../context/AuthContext";
 
+import Cookie from "js-cookie";
+
 import Fblogo from '../public/svgs/facebook.svg'
 import Iglogo from '../public/svgs/instagram.svg'
 
-const LoginButton = () => ( 
-
-            <NextLink href='/admin'>
-              <button className="px-2 py-1 bg-black rounded-md">
-                  <a className="font-bold text-white"> Admin </a>
-              </button>
-            </NextLink>
-) 
-
 function LogoutButton() {
+
+  const [hide,setHide] =  useState<string>('hidden')
   const { logout } = useAuth();
+  const token = Cookie.get('token');
+  useEffect(() => {
+    if(token){
+      setHide('')    
+    } else {
+      setHide('hidden')
+    }
+  },[token,hide])
+ 
   return (
-    <button className="px-2 py-1 font-bold text-white rounded-md bg-primary-400"
+    <button className={`${hide} px-2 py-1 font-bold text-white rounded-md bg-primary-400`}
       onClick={logout}>
       Logout
     </button>
@@ -30,10 +34,11 @@ function LogoutButton() {
 
 }
 export default function Footer() {
-  const { user } = useAuth();
-  
 
   
+  useEffect(() => {
+    
+  })
   
   const goToInsta = () => {document.location.href="https://www.instagram.com/muslimleaguect/"}
   const goToFacebook = () => {document.location.href="https://www.facebook.com/MuslimLeagueCT"}
@@ -65,7 +70,12 @@ export default function Footer() {
            </div>
 
          <div className="pb-5 text-center">
-          {user ? <LogoutButton/> : <LoginButton/> }
+            <NextLink href='/admin'>
+              <button className="px-2 py-1 mx-2 bg-black rounded-md">
+                  <a className="font-bold text-white"> Admin </a>
+              </button>
+            </NextLink>
+            <LogoutButton/>
          </div>
            
         </Container>

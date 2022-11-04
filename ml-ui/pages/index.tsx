@@ -13,7 +13,6 @@ type Props = {
 } 
 
 const Home = ({standings}: Props) => {
-  console.log(JWT_KEY)
   return (
     <> 
       <Header /> 

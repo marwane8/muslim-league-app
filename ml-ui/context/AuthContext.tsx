@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { ReactNode } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -7,7 +7,6 @@ import Cookie from "js-cookie";
 import { API_CLIENT_URL, UserData } from '../utils/fetch-models';
 
 export type Auth = {
-    user: UserData | null;
     isLoading: boolean;
     login: (userCredentials: FormData) => Promise<void>;
     logout: () => void;
@@ -24,13 +23,10 @@ export function useAuth() {
 type Props = {
     children: ReactNode;
 }
-
 export const AuthProvider = ({children}: Props) => {
-    const [user,setUser] = useState<UserData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
     const router = useRouter();
-
     // Login User 
     const login = async (userCredentials: FormData) => {
 
@@ -49,8 +45,9 @@ export const AuthProvider = ({children}: Props) => {
             
             if (response.status === 200) {
                 setError('');
-                setUser(data);
-                router.push('/admin');
+                console.log('setting user')
+                router.reload()
+                router.push('/admin')
             } else if(response.status === 401){
                 setError(data.detail);
             } else {
@@ -86,7 +83,6 @@ export const AuthProvider = ({children}: Props) => {
             const data = await response.json();
             if (response.status === 200) {
                 setError('');
-                setUser(null);
                 router.push('/')
                 console.log(data.mesage)
             } else {
@@ -102,7 +98,6 @@ export const AuthProvider = ({children}: Props) => {
    }
 
     const value = {
-        user,
         isLoading,
         login,
         logout,

@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 
 import Header from "../components/header";
 
-
 type ErrorProp = {
     message?: string
 }
@@ -21,7 +20,8 @@ export default function Login() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+
+ 
   function handleUserChange(event: React.ChangeEvent<HTMLInputElement>) { 
     setUsername(event.target.value);
   }

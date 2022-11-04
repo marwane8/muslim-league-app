@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import Container from '../components/container';
 import Header from '../components/header';
 
-
 export default function Admin() {
-
+    
     return (
         <Container>
             <Header title='Admin | Muslim League CT'/>
