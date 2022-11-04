@@ -16,13 +16,13 @@ export async function middleware(request: NextRequest) {
                 await jwtVerify(token, new TextEncoder().encode(secret))
                 return NextResponse.redirect(new URL('/admin', request.url));
             } catch(e) {
+                console.error("/login JWT Verification Failed: ", e)
                 return NextResponse.next();
             }
         }            
     }
 
     if (request.nextUrl.pathname.startsWith('/admin')){
-        console.log("runnning admin middleware")
         if(token === undefined) {
             return NextResponse.redirect(new URL('/login', request.url) )
         } else {
@@ -33,6 +33,7 @@ export async function middleware(request: NextRequest) {
                     return console.log('Not an Admin')
                 }
             } catch(e) {
+                console.error("/admin JWT Verification Failed: ", e)
                 return NextResponse.redirect(new URL('/login', request.url) )
             }
         }

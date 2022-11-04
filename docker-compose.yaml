@@ -14,8 +14,8 @@ services:
       - "8000:80"
     environment:
       - TEST_VAR=hello
-      - JWT_SECRET_KEY=key1
-      - JWT_REFRESH_SECRET_KEY=key2
+      - JWT_SECRET_KEY=${JWT_KEY1}
+      - JWT_REFRESH_SECRET_KEY=${JWT_KEY2}
       - DB_URL=./database/muslim-league.db
     volumes:
       - ./ml-api/database:/code/database
