@@ -2,14 +2,14 @@ version: '3'
 
 services:
   ml-ui:
-    image: muslim-league-ui
+    image: marwane8/ml-ui
     ports:
       - "3000:3000"
     depends_on:
       - ml-api
 
   ml-api:
-    image: muslim-league-api
+    image: marwane8/ml-api
     ports:
       - "8000:80"
     environment:

@@ -21,7 +21,8 @@ from app.db_accessor import (
 app = FastAPI()
 
 origins = [
-  "http://localhost:3000"  
+  "http://localhost:3000",
+  "https://www.muslimleaguect.com"
 ]
 
 app.add_middleware(
