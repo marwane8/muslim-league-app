@@ -53,7 +53,7 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
             detail="Incorrect username or password"
         )
     jwtToken = create_access_token(user_info.username,admin=user_info.admin)
-    response.set_cookie(key="token", value=jwtToken,secure=True)
+    response.set_cookie(key="token", value=jwtToken,secure=True,domain=".muslimleaguect.com")
 
     user_json = {
         "username": user_info.username,
@@ -66,7 +66,7 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 def logout(user: User = Depends(get_current_user)):
     message = {"message" : "Logout Success"}
     response = JSONResponse(content=message) 
-    response.set_cookie(key="token", value="",secure=True)
+    response.set_cookie(key="token", value="",secure=True,domain=".muslimleaguect.com")
     return response
 
 @app.get("/standings/{season_id}" , response_model=list[Team])
