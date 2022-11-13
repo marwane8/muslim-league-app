@@ -20,7 +20,7 @@ class UserJSON(BaseModel):
 class Player(BaseModel):
     id: int
     name: str | None = None
-    number: int
+    number: int | None
     pos: str
 
 class Team(BaseModel):

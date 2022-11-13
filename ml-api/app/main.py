@@ -1,20 +1,19 @@
-from app.auth_deps import get_current_user
-from fastapi import FastAPI, Path, Depends, HTTPException, Response, status
+from app.auth_deps import get_current_user,badLoginException
+from fastapi import FastAPI, Path, Depends,Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-
 import os
 
 from app.models import Player,Team, User, TokenSchema 
 from app.utils import ( 
     create_access_token,
     verify_password,
-    get_user_from_db 
+    get_credentials_from_db
 )
 
 from app.db_accessor import (
-    create_standings,
+    get_team_standings,
     get_team_roster
 )
 
@@ -42,46 +41,55 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/api")
 def home():
     return  { "message": "The Muslim League API"}
 
 
-@app.post("/login",summary="Create access and refresh tokens for user", response_model=TokenSchema)
+#--------------
+# User Authenticatoin Endpoints
+#--------------
+@app.post("/api/v1/login",summary="Verifies user and returns jwt token", response_model=TokenSchema)
 def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 
     input_username = form_data.username  
     input_password = form_data.password 
 
-    user_info = get_user_from_db(input_username,get_passwd=True)   
+    user_info = get_credentials_from_db(input_username)   
+    if user_info: is_valid_password = verify_password(input_password,user_info.password)
 
-    if not user_info or not verify_password(input_password,user_info.password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password"
-        )
+    if not user_info or not is_valid_password:
+        raise badLoginException
+    
     jwtToken = create_access_token(user_info.username,admin=user_info.admin)
+
     response.set_cookie(key="token", value=jwtToken,secure=True,domain=app_domain)
 
-    user_json = {
+    token_json = {
         "access_token": jwtToken
     }
 
-    return user_json
+    return token_json 
 
-@app.get("/logout",summary="Logs out user and clears cookies")    
+
+@app.get("/api/v1/logout",summary="Logs out user and clears cookies")    
 def logout(user: User = Depends(get_current_user)):
     message = {"message" : "Logout Success"}
     response = JSONResponse(content=message) 
     response.set_cookie(key="token", value="",secure=True,domain=app_domain)
     return response
 
-@app.get("/api/v1/standings/{season_id}" , response_model=list[Team])
-def get_roster(season_id: int = Path(None,description="The ID of a Season")):
-    standings = create_standings(season_id)
+#--------------
+# TEAM API Endpoints
+#--------------
+get_standings_summary = "Returns a sorted list of teams of a given season id according their prefomance records"
+@app.get("/api/v1/teams/standings/{season_id}" ,summary=get_standings_summary, response_model=list[Team])
+def get_standings(season_id: int = Path(None,description="The ID of a Season")):
+    standings = get_team_standings(season_id)
     return standings 
 
-@app.get("/api/v1/roster/{team_id}" , response_model=list[Player])
+get_roster_summary = "Returns a list of players associated with the given team id"
+@app.get("/api/v1/teams/{team_id}" ,summary=get_roster_summary, response_model=list[Player])
 def get_roster(team_id: int = Path(None,description="The ID of a Team")):
     roster = get_team_roster(team_id)
     return roster 
