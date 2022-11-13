@@ -1,9 +1,6 @@
 import Footer from "./footer"
 import Navbar from "./navbar"
 
-type Props = {
-    children?: React.ReactNode
-}
 
 const Layout = ({ children }: Props) => {
     return (
@@ -16,3 +13,8 @@ const Layout = ({ children }: Props) => {
 }
 
 export default Layout
+
+//Types
+type Props = {
+    children?: React.ReactNode
+}

@@ -1,51 +1,55 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext} from 'react';
 import { ReactNode } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Cookie from "js-cookie";
-import { API_CLIENT_URL, UserData } from '../utils/fetch-models';
-
-export type Auth = {
-    isLoading: boolean;
-    login: (userCredentials: FormData) => Promise<void>;
-    logout: () => void;
-    error: string;
-
-}
+import { API_CLIENT_URL, credentialPostFetchOptions, makeAuthorizedRequestOptions } from '../utils/api/api-utils';
 
 
+// Set Up and Export Functoins to use Auth Context
 const AuthContext = createContext<Auth>({} as Auth);
+
 export function useAuth() {
     return useContext(AuthContext);
 }
 
-type Props = {
-    children: ReactNode;
-}
 export const AuthProvider = ({children}: Props) => {
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
     const router = useRouter();
+
     // Login User 
     const login = async (userCredentials: FormData) => {
-
         console.log('Logging In')
-        const url = API_CLIENT_URL + '/login';
-        const options: RequestInit = {
-            method: 'POST',
-            credentials: 'include',
-            body: userCredentials 
-        }
         setIsLoading(true);
+        const loginUrl = API_CLIENT_URL + '/api/v1/login';
+        const loginRequestOptions = credentialPostFetchOptions(userCredentials);
+        await handleLoginAPIRequest(loginUrl,loginRequestOptions) 
+        setIsLoading(false);
+    }
+
+    // Logout User
+    const logout = async () => {
+        console.log('Logging Out');
+        setIsLoading(true);
+        const jwt = Cookie.get('token');
+        const logoutUrl = API_CLIENT_URL + '/api/v1/logout';
+        const logoutRequestOptions = makeAuthorizedRequestOptions(jwt)
+        await handleLogoutAPIRequest(logoutUrl,logoutRequestOptions)
+        setIsLoading(false);
+    }
+       
+      
+    async function handleLoginAPIRequest(url: string, requestOptions: RequestInit) {
         try {
-            const response = await fetch(url,options);
+            const response = await fetch(url,requestOptions);
             
             const data = await response.json();
             
             if (response.status === 200) {
                 setError('');
-                console.log('setting user')
                 router.reload()
                 router.push('/admin')
             } else if(response.status === 401){
@@ -57,34 +61,15 @@ export const AuthProvider = ({children}: Props) => {
         } catch (e) {
             setError("Server Error");
             console.error("Fetch Failed: ", e);
-        } finally {
-            setIsLoading(false);
-        }
+        }    
     }
-    
-    // Logout User
-    const logout = async () => {
-        console.log('Logging Out');
 
-        setIsLoading(true);
-        const jwt = Cookie.get('token');
-
-        const url = API_CLIENT_URL + '/logout';
-        const options: RequestInit = {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Authorization': `Bearer ${jwt}`
-            }
-        }
-        
-        try {
-            const response = await fetch(url,options);
-            const data = await response.json();
+    async function handleLogoutAPIRequest(url: string, requestOptions: RequestInit) {
+         try {
+            const response = await fetch(url,requestOptions);
             if (response.status === 200) {
                 setError('');
                 router.push('/')
-                console.log(data.mesage)
             } else {
                 setError("Server Request Error")
                 console.error("Invalid Request")
@@ -92,12 +77,11 @@ export const AuthProvider = ({children}: Props) => {
         } catch (e) {
             setError("Server Error");
             console.error("Fetch Failed: ", e);
-        } finally {
-            setIsLoading(false);
-        }
-   }
-
-    const value = {
+        }     
+    }
+ 
+    // Output Context Values 
+    const authValues = {
         isLoading,
         login,
         logout,
@@ -105,8 +89,21 @@ export const AuthProvider = ({children}: Props) => {
     }
 
     return (
-        <AuthContext.Provider value={value}>
+        <AuthContext.Provider value={authValues}>
             {children} 
         </AuthContext.Provider>
     )
 }
+
+//Types
+export type Auth = {
+    isLoading: boolean;
+    login: (userCredentials: FormData) => Promise<void>;
+    logout: () => void;
+    error: string;
+}
+
+type Props = {
+    children: ReactNode;
+}
+

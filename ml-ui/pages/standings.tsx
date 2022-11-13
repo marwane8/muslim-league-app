@@ -4,7 +4,7 @@ import Container from "../components/container"
 import Header from '../components/header'
 
 import { getStandings } from "../utils/api/team-api"
-import { TeamData } from "../utils/fetch-models"
+import { TeamData } from "../utils/models"
 
 
 type Props = {

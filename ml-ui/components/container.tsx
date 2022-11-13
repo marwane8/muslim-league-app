@@ -1,6 +1,3 @@
-type Props = {
-    children?: React.ReactNode
-}
 
 
 const Container = ({ children }: Props) => {
@@ -8,3 +5,8 @@ const Container = ({ children }: Props) => {
 }
 
 export default Container
+
+//Types 
+type Props = {
+    children?: React.ReactNode
+}

@@ -6,7 +6,7 @@ import championpic from '/public/champions.jpg'
 import Header from '../components/header'
 import Container from '../components/container'
 import { getStandings } from '../utils/api/team-api'
-import { JWT_KEY, TeamData } from '../utils/fetch-models'
+import { TeamData } from '../utils/models'
 
 type Props = {
   standings: TeamData[]

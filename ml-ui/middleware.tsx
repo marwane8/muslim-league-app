@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { JWT_KEY } from "./utils/fetch-models";
-
+import { JWT_KEY } from "./utils/api/api-utils";
 
 export async function middleware(request: NextRequest) {
-    const secret = JWT_KEY;
+
     const token = request.cookies.get('token');
     
     if (request.nextUrl.pathname.startsWith('/login')){
@@ -13,7 +12,7 @@ export async function middleware(request: NextRequest) {
 
         if(token) {
             try {
-                await jwtVerify(token, new TextEncoder().encode(secret))
+                await jwtVerify(token, new TextEncoder().encode(JWT_KEY))
                 return NextResponse.redirect(new URL('/admin', request.url));
             } catch(e) {
                 console.error("/login JWT Verification Failed: ", e)
@@ -27,7 +26,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/login', request.url) )
         } else {
             try {
-                const { payload } = await jwtVerify(token, new TextEncoder().encode(secret))
+                const { payload } = await jwtVerify(token, new TextEncoder().encode(JWT_KEY))
                 if (!payload.admin) {
                     //TODO: Make a not an admin page
                     return console.log('Not an Admin')

@@ -1,7 +1,8 @@
-import { API_BASE_URL, PlayerData, TeamData } from "../fetch-models";
+import { PlayerData, TeamData } from "../models";
+import { API_BASE_URL } from "./api-utils";
 
 export async function getStandings(season_id: number): Promise<TeamData[]> {
-    const query = "/api/v1/standings/" + season_id;
+    const query = "/api/v1/teams/standings/" + season_id;
     const url = API_BASE_URL + query;
 
     const options: RequestInit =  {
@@ -24,7 +25,7 @@ export async function getStandings(season_id: number): Promise<TeamData[]> {
 }
 
 export async function getRoster(team_id: number): Promise<PlayerData> {
-    const query = "/api/v1/roster/" + team_id;
+    const query = "/api/v1/teams/roster/" + team_id;
     const url = API_BASE_URL + query;
 
     const options: RequestInit =  {
