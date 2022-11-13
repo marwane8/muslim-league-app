@@ -1,12 +1,12 @@
 from app.auth_deps import get_current_user
-from fastapi import FastAPI, Path, Depends,HTTPException, Response, status
+from fastapi import FastAPI, Path, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import os
 
-from app.models import Player,Team, User, UserJSON
+from app.models import Player,Team, User, TokenSchema 
 from app.utils import ( 
     create_access_token,
     verify_password,
@@ -18,7 +18,15 @@ from app.db_accessor import (
     get_team_roster
 )
 
+
+app_env = os.environ.get('ML_ENV') 
+
 app = FastAPI()
+app_domain = "localhost"
+
+if app_env == 'prod':
+    app = FastAPI(docs_url=None,redoc_url=None)
+    app_domain = ".muslimleaguect.com"
 
 origins = [
   "http://localhost:3000",
@@ -39,7 +47,7 @@ def home():
     return  { "message": "The Muslim League API"}
 
 
-@app.post("/login",summary="Create access and refresh tokens for user", response_model=UserJSON)
+@app.post("/login",summary="Create access and refresh tokens for user", response_model=TokenSchema)
 def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 
     input_username = form_data.username  
@@ -53,11 +61,10 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
             detail="Incorrect username or password"
         )
     jwtToken = create_access_token(user_info.username,admin=user_info.admin)
-    response.set_cookie(key="token", value=jwtToken,secure=True,domain=".muslimleaguect.com")
+    response.set_cookie(key="token", value=jwtToken,secure=True,domain=app_domain)
 
     user_json = {
-        "username": user_info.username,
-        "admin": user_info.admin
+        "access_token": jwtToken
     }
 
     return user_json
@@ -66,15 +73,15 @@ def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends()):
 def logout(user: User = Depends(get_current_user)):
     message = {"message" : "Logout Success"}
     response = JSONResponse(content=message) 
-    response.set_cookie(key="token", value="",secure=True,domain=".muslimleaguect.com")
+    response.set_cookie(key="token", value="",secure=True,domain=app_domain)
     return response
 
-@app.get("/standings/{season_id}" , response_model=list[Team])
+@app.get("/api/v1/standings/{season_id}" , response_model=list[Team])
 def get_roster(season_id: int = Path(None,description="The ID of a Season")):
     standings = create_standings(season_id)
     return standings 
 
-@app.get("/roster/{team_id}" , response_model=list[Player])
+@app.get("/api/v1/roster/{team_id}" , response_model=list[Player])
 def get_roster(team_id: int = Path(None,description="The ID of a Team")):
     roster = get_team_roster(team_id)
     return roster 

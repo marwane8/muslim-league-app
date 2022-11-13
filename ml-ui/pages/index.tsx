@@ -27,7 +27,7 @@ const Home = ({standings}: Props) => {
         <div className='p-5 my-5 rounded-2xl lg:grid lg:gap-5 lg:grid-cols-3 bg-gray'>
           <div className='mb-5'>
             <h2 className='mb-3 text-xl font-bold text-gray-500 md:mb-5 md:text-2xl'> Your 2022 Champs, Top Akhs! </h2>
-            <p className='hidden text-xl sm:block' > 
+            <p className='hidden text-xl sm:block'> 
               Top Akhs defeat The Springfield Rockets in close battle.
               Top Akhs defend there tile and are now back to back Muslim League champions.
             </p>
