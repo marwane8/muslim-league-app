@@ -4,7 +4,7 @@ import Navbar from "./navbar"
 
 const Layout = ({ children }: Props) => {
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-gray">
             <Navbar />
             <main className="grow">{children}</main>
             <Footer />

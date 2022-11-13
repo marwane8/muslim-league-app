@@ -24,9 +24,9 @@ const Home = ({standings}: Props) => {
         </Container> 
       </div>
       <Container>
-        <div className='p-5 my-5 rounded-2xl lg:grid lg:gap-5 lg:grid-cols-3 bg-gray'>
+        <div className='p-5 my-5 rounded-2xl lg:grid lg:gap-5 lg:grid-cols-3'>
           <div className='mb-5'>
-            <h2 className='mb-3 text-xl font-bold text-gray-500 md:mb-5 md:text-2xl'> Your 2022 Champs, Top Akhs! </h2>
+            <h2 className='mb-3 text-xl font-bold text-center text-gray-500 md:mb-5 md:text-2xl'> Your 2022 Champs, Top Akhs! </h2>
             <p className='hidden text-xl sm:block'> 
               Top Akhs defeat The Springfield Rockets in close battle.
               Top Akhs defend there tile and are now back to back Muslim League champions.
@@ -43,7 +43,6 @@ const Home = ({standings}: Props) => {
           />
          </div>
         </div>
-
 
         <h2 className='text-2xl font-bold text-center md:text-4xl'> 2022 Season Recap </h2>
         <div className='max-w-5xl m-auto md:grid md:grid-cols-2 '> 
@@ -69,17 +68,16 @@ const Home = ({standings}: Props) => {
              </NextLink>
           </div>
         </div>
-
+        <div className='rounded-xl py-2 bg-white mb-5'>
         <h2 className='text-2xl font-bold text-center md:text-4xl'> 2023 Season Coming Soon! </h2>
-        <div className='p-5 m-5 rounded-xl bg-gray'>
+        <div className='m-5 rounded-xl'>
           <p className='text-xl'> 
             Details for the 2023  Season will roll out early next year Inshallah.
             <span className='hidden pl-1 sm:inline'>
               Comeback for updates and visit our social media for the latest content.
             </span>
-         
-
           </p>
+        </div>
        </div>
       </Container>
    </>
@@ -100,7 +98,14 @@ export async function getServerSideProps() {
       name: "Team 2",
       wins: 7,
       loss: 1
+    },
+    {
+      id: 2,
+      name: "Team 2",
+      wins: 7,
+      loss: 1
     }
+
   ]
 
   try {
@@ -114,25 +119,30 @@ export async function getServerSideProps() {
 const MiniStats = ({standings}: Props) => {
   
   return(
-    <div className='m-5 overflow-hidden shadow-sm rounded-xl'>
-      <table className="w-full text-left table-fixed">
-        <thead className='text-white bg-primary'>
+    <div className='m-5 border-2 border-gray-300 overflow-hidden rounded-xl'>
+      <div className='py-2 text-center bg-primary text-white font-bold border-b border-gray-300 text-lg'> 2022 Standings </div>
+      <div className='px-3'>
+      <table className="w-full text-center table-fixed ">
+        <thead className=''>
           <tr >
-            <th className= 'w-40 px-6 py-3'>Team</th>
-            <th className='px-3 py-3'>W</th>
-            <th className='px-3 py-3'>L</th>
+            <th className= 'px-1 py-2 text-left w-2/3 '>Team</th>
+            <th className='px-1 py-2 '>W</th>
+            <th className='px-1 py-2 '>L</th>
+            <th className='px-1 py-2'>Pct</th>
           </tr>
         </thead>
         <tbody>
           { standings.map((teams,index) => (
-            <tr key={index} className={index%2 ? "bg-white hover:text-primary hover:font-bold " : "bg-gray hover:text-primary hover:font-bold "} > 
-              <td className='px-3 py-4'> {teams.name} </td>
-              <td className='px-3 py-4'> {teams.wins}  </td>
-              <td className='px-3 py-4'> {teams.loss} </td>
+            <tr key={index} className="border-t border-gray-300" > 
+              <td className='px-1 py-2 text-left'><span className='font-bold'>{index+1}</span> {teams.name} </td>
+              <td className='px-1 py-2'> {teams.wins}  </td>
+              <td className='px-1 py-2'> {teams.loss} </td>
+              <td className='px-1 py-2 text-sm'> {(teams.wins/(teams.wins+teams.loss))*100}% </td>
             </tr>
          ))}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }
