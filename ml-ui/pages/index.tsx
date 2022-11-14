@@ -1,10 +1,11 @@
-import Image from 'next/image'
-import NextLink from 'next/link'
-
 import championpic from '/public/champions.jpg' 
 
 import Header from '../components/header'
 import Container from '../components/container'
+import Panel from '../components/home/panel'
+import ImageCard from '../components/home/image-card'
+import FancyButton from '../components/home/fancy-button'
+
 import { getStandings } from '../utils/api/team-api'
 import { TeamData } from '../utils/models'
 
@@ -16,69 +17,55 @@ const Home = ({standings}: Props) => {
   return (
     <> 
       <Header /> 
-
       <div className='flex items-end bg-right bg-no-repeat lg:bg-right py-7 bg-[length:700px] sm:bg-cover bg-prayer_img h-[300px] sm:h-[600px]'>
         <Container>
-         <h1 className='my-2 text-4xl font-extrabold text-white md:text-7xl'>The Muslim League</h1>
-          <p className='mt-3 font-bold text-white text-l md:text-xl'>Uniting muslim athletes across CT.</p>
+         <h1 className='my-2 ml-2 text-4xl font-extrabold text-white md:text-7xl'>The Muslim League</h1>
+          <p className='mt-3 ml-2 font-bold text-white text-l md:text-xl'>Uniting muslim athletes across CT.</p>
         </Container> 
       </div>
+
       <Container>
-        <div className='p-5 my-5 rounded-2xl lg:grid lg:gap-5 lg:grid-cols-3'>
-          <div className='mb-5'>
-            <h2 className='mb-3 text-xl font-bold text-center text-gray-500 md:mb-5 md:text-2xl'> Your 2022 Champs, Top Akhs! </h2>
-            <p className='hidden text-xl sm:block'> 
-              Top Akhs defeat The Springfield Rockets in close battle.
-              Top Akhs defend there tile and are now back to back Muslim League champions.
+        <Panel title='2022 Season Recap'>
+          <div className='flex justify-center'>
+            <ImageCard 
+              title='Top Akhs win 2022 Championship'
+              src={championpic}
+              alt='Picture of Championship Team'
+              date='August 7th, 2022'>
+            <p> 
+              Top Akhs defeat The Springfield Rockets in close battle to 
+              defend there tile and are now back to back Muslim League champions.
             </p>
-            <p className='hidden mt-5 text-xl lg:block'> Thank you to all the teams who participated for a another great Season! </p>
-          </div>
-          <div className='col-span-2 max-w-[800px] '>
-          <Image
-                src={championpic}
-                className="rounded-2xl"
-                alt="Picture of Championship Team"
-                width="1265px"
-                height="843px"
-          />
-         </div>
-        </div>
-
-        <h2 className='text-2xl font-bold text-center md:text-4xl'> 2022 Season Recap </h2>
-        <div className='max-w-5xl m-auto md:grid md:grid-cols-2 '> 
-
-          <div className='row-span-2'>
-            <MiniStats standings={standings}/>
-          </div> 
-          <div className='flex flex-col justify-center py-5 min-h-[160px] items-center m-5 rounded-xl bg-award_img bg-cover bg-center bg-no-repeat'> 
-            <h1 className='w-3/5 my-3 text-xl font-bold text-center text-white'> SEASON AWARD WINNERS </h1>
-             <NextLink href='/awards'>
-                <button className="w-1/3 px-2 py-1 font-bold text-center text-white rounded-md hover:bg-gradient-to-r from-primary to-secondary bg-primary-500">
-                  <a className="font-bold text-white"> AWARDS </a>
-                </button>
-             </NextLink>
+            </ImageCard>
           </div>
 
-          <div className='flex flex-col justify-center min-h-[160px] py-5 items-center m-5 rounded-xl bg-scoring_img bg-cover bg-top bg-no-repeat'> 
-            <h1 className='w-3/5 my-3 text-xl font-bold text-center text-white'> OUR LEAGUE LEADERS </h1>
-             <NextLink href='/standings'>
-                <button className="w-1/3 px-2 py-1 font-bold text-center text-white bg-black rounded-md min-w-fit hover:bg-gradient-to-r hover:from-secondary hover:to-primary">
-                  <a className="py-2 font-bold text-white"> STANDINGS </a>
-                </button>
-             </NextLink>
+          <div className='max-w-5xl m-auto md:grid md:grid-cols-2'> 
+            <div className='row-span-2'>
+              <MiniStats standings={standings}/>
+            </div>
+            <FancyButton 
+              title='INDIVIDUAL WINNERS'
+              button='AWARDS'
+              link='/awards'
+              tailWindImage='bg-award_img'
+            />
+            <FancyButton 
+              title='OUR LEAGUE LEADERS'
+              button='STANDINGS'
+              link='/standings'
+              tailWindImage='bg-scoring_img'
+            />
           </div>
-        </div>
-        <div className='rounded-xl py-2 bg-white mb-5'>
-        <h2 className='text-2xl font-bold text-center md:text-4xl'> 2023 Season Coming Soon! </h2>
-        <div className='m-5 rounded-xl'>
-          <p className='text-xl'> 
+        </Panel>
+        <Panel title='2023 Season Coming Soon'>
+          <p className='text-l'> 
             Details for the 2023  Season will roll out early next year Inshallah.
             <span className='hidden pl-1 sm:inline'>
               Comeback for updates and visit our social media for the latest content.
             </span>
           </p>
-        </div>
-       </div>
+        </Panel> 
+
       </Container>
    </>
   )
@@ -119,16 +106,16 @@ export async function getServerSideProps() {
 const MiniStats = ({standings}: Props) => {
   
   return(
-    <div className='m-5 border-2 border-gray-300 overflow-hidden rounded-xl'>
-      <div className='py-2 text-center bg-primary text-white font-bold border-b border-gray-300 text-lg'> 2022 Standings </div>
+    <div className='m-3 overflow-hidden border-2 border-gray-300 rounded-xl'>
+      <div className='py-2 text-lg font-bold text-center text-white border-b border-gray-300 bg-primary'> 2022 Standings </div>
       <div className='px-3'>
       <table className="w-full text-center table-fixed ">
         <thead className=''>
           <tr >
-            <th className= 'px-1 py-2 text-left w-2/3 '>Team</th>
+            <th className= 'w-2/3 px-1 py-2 text-left '>Team</th>
             <th className='px-1 py-2 '>W</th>
             <th className='px-1 py-2 '>L</th>
-            <th className='px-1 py-2'>Pct</th>
+            <th className='px-1 py-2'>%</th>
           </tr>
         </thead>
         <tbody>
@@ -137,7 +124,7 @@ const MiniStats = ({standings}: Props) => {
               <td className='px-1 py-2 text-left'><span className='font-bold'>{index+1}</span> {teams.name} </td>
               <td className='px-1 py-2'> {teams.wins}  </td>
               <td className='px-1 py-2'> {teams.loss} </td>
-              <td className='px-1 py-2 text-sm'> {(teams.wins/(teams.wins+teams.loss))*100}% </td>
+              <td className='px-1 py-2 text-sm'> {(teams.wins/(teams.wins+teams.loss))} </td>
             </tr>
          ))}
         </tbody>

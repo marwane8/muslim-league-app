@@ -51,7 +51,7 @@ export default function Award() {
                 <div key={index} className="rounded-xl pb-1 text-center overflow-hidden bg-gray shadow-lg w-[250px]"> 
                         <Image
                             src={player.src} 
-                            alt="Most Valuable Player Winner"
+                            alt="Award Winner Holding Trophy"
                         />
                     <h2 className="text-lg font-bold text-primary">{player.award}</h2> 
                     <p>{player.name}</p>
