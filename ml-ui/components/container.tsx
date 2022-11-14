@@ -1,7 +1,7 @@
 
 
 const Container = ({ children }: Props) => {
-    return <div className="container max-w-screen-xl px-5 xl:mx-auto">{children}</div>
+    return <div className="container max-w-screen-lg md:px-5 xl:mx-auto">{children}</div>
 }
 
 export default Container
